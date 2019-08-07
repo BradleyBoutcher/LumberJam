@@ -8,30 +8,52 @@ public class GridController : MonoBehaviour
     public GameObject selector;
     public TerrainCollider board; 
 
-    public static LineRenderer[] HorizontalLines;
-    public static LineRenderer[] VerticalLines;
-
     private void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (board.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
-        {
-            Vector3 targetTransform = hitInfo.point;
-            targetTransform.y = 0.3f;
-            target.transform.position = targetTransform;                    // Hover over Selector
-        }
+        updateSelectedTile();
     }
 
     private void LateUpdate()
     {
+        updateSelector();
+    }
+
+    private void updateSelector()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (board.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
+        try
         {
-            Vector3 selectorTransform = hitInfo.point;                      // New vector to snap selector to grid
-            selectorTransform.x = Mathf.Round(hitInfo.point.x); 
-            selectorTransform.z = Mathf.Round(hitInfo.point.z);
-            selectorTransform.y = 0.1f;                                     // Hover over Board
-            selector.transform.position = selectorTransform;
+            if (board.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
+            {
+                Vector3 selectorTransform = hitInfo.point;                      // New vector to snap selector to grid
+                selectorTransform.x = Mathf.Round(hitInfo.point.x);
+                selectorTransform.z = Mathf.Round(hitInfo.point.z);
+                selectorTransform.y = 0.1f;                                     // Hover over Board
+                selector.transform.position = selectorTransform;
+            }
+        }
+        catch
+        {
+            Debug.Log("Unable to update location for Tile Selector");
+        }
+    }
+
+    private void updateSelectedTile()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        try
+        {
+            if (board.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
+            {
+                Vector3 targetTransform = hitInfo.point;
+                targetTransform.y = 0.3f;
+                target.transform.position = targetTransform;                    // Hover over Selector
+            }
+        }
+        catch
+        {
+            Debug.Log("Unable to update location for Selected Tile");
         }
     }
 }

@@ -44,9 +44,8 @@ public class BoardController : MonoBehaviour
                     y = 0.1f,
                     z = horizontal_z,
                 };
-
-                LineRenderer newLine = Line;                                        
-                Instantiate(newLine, newPos, Line.transform.localRotation, this.transform);
+                                   
+                Instantiate(Line, newPos, Line.transform.localRotation, this.transform);
             }
         }
         catch
@@ -74,9 +73,8 @@ public class BoardController : MonoBehaviour
                     y = 0.1f,
                     z = i,
                 };
-
-                LineRenderer newLine = Line;                                       
-                Instantiate(newLine, newPos, Quaternion.Euler(new Vector3(0, 90, 0)), this.transform);
+                                     
+                Instantiate(Line, newPos, Quaternion.Euler(new Vector3(0, 90, 0)), this.transform);
             }
         }
         catch
